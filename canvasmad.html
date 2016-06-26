@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+</head>
+
+<body>
+<canvas id="canvas" width="500" height="400" style="border: 1px solid"></canvas>
+<div id="ds"></div>
+
+<script type="text/javascript">
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var dir = 0;
+    var height = 1000;
+    var width = 1000;
+    var exp = 1;//像素移动的位置
+    function fff() {
+        ctx.restore();
+        ctx.clearRect(0,0,height,width);//清除上一次的痕迹
+        //set the shadow
+       ctx.shadowOffsetX=-3;
+        ctx.shadowOffsetY=-3;
+       ctx.shadowBlur=9;
+        ctx.shadowColor="rgba(0,0,0,0.5)";
+        //draw the quadratic
+        ctx.strokeStyle="gary";
+        ctx.beginPath();
+        ctx.moveTo(200,100+dir);
+        ctx.quadraticCurveTo(250,10 + dir,300,100 + dir);//1
+        ctx.quadraticCurveTo(350,200 + dir,250,200 + dir);//2
+        ctx.quadraticCurveTo(150,200 + dir,200,100 + dir);//3
+        ctx.stroke();
+        //ctx.globalCompositeOperation="destination-in";
+        ctx.save();
+        ctx.clip();
+        ctx.fillStyle="black";
+        ctx.fillRect(220, 150 + dir,60,50);
+//      ctx.arc(190, dir, 20, 0, Math.PI * 2, 1);
+        dir = dir + exp;
+        if(dir==0||dir==height)
+        {
+            exp = exp *( -1);
+        }
+    }
+
+</script>
+<button onclick="cvs=setInterval(fff,70);">开始</button>
+<button onclick="clearInterval(cvs);" >停止</button>
+</body>
+</html>
